@@ -1,0 +1,10 @@
+name = "KTLean"
+version = "0.1.0"
+defaultTargets = ["ktlean"]
+
+[[lean_lib]]
+name = "KTLean"
+
+[[lean_exe]]
+name = "ktlean"
+root = "Main"
