@@ -14,6 +14,12 @@ def fluxValue : Flux → Int
 #eval fluxValue Flux.zero
 #eval fluxValue Flux.pos
 
+
+/-
+Given two distinct flux states, return the unique third state.
+For diagonal inputs, return the same state.
+-/
+
 def triadicCompletion : Flux → Flux → Flux
   | Flux.neg, Flux.zero => Flux.pos
   | Flux.zero, Flux.neg => Flux.pos
@@ -54,3 +60,10 @@ theorem closure_zero_pos :
   triadicCompletion Flux.neg Flux.pos =
   triadicCompletion Flux.pos Flux.neg := by
     rfl
+inductive Orientation where
+| cw
+| ccw
+deriving Repr, DecidableEq
+
+#check Orientation.cw
+#check Orientation.ccw
