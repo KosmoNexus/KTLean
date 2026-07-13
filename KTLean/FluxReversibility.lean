@@ -55,7 +55,7 @@ the previously defined Flux transition law.
 -/
 theorem fluxReversibleLaw_eq_fluxLaw
     (context : Flux) :
-    
+
     ReversibleStep.law (fluxReversibleStep context) =
       fluxLaw context := by
   rfl
@@ -135,4 +135,3 @@ theorem fluxStep_surjective_from_reversibility
 #check fluxHistory_oneStep_recovery
 #check fluxStep_injective_from_reversibility
 #check fluxStep_surjective_from_reversibility
-
