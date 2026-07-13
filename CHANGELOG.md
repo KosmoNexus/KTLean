@@ -201,3 +201,5 @@ interactions to exist within an ordered computational universe.
 
 This suggests that memory is not an emergent feature of KT,
 but is implicit in the Peano structure itself.
+
+On the roots of tokenization: Although the tokenization program is introduced through Planck units, those units are not primitive objects of Kosmoplex Theory. They are projected dimensional echoes of the deeper operations of succession, interaction, total transformation, and record.
