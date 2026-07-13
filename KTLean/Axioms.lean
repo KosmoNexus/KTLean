@@ -116,9 +116,8 @@ theorem completion_satisfies_axiom6 :
   constructor
   · intro a
     cases a <;> rfl
-  · intro a b hab
-    cases a <;> cases b <;>
-      simp_all [triadicCompletion]
+  · intro a b
+    cases a <;> cases b <;> decide
 
 
 /-
