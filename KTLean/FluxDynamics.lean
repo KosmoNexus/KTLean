@@ -118,3 +118,93 @@ theorem fluxHistory_respects_law
 #check fluxLaw_totalFunctional
 #check fluxHistory
 #check fluxHistory_respects_law
+
+/--
+A fixed-context Flux transition is involutive.
+
+Applying the same lawful transition twice restores
+the original state.
+-/
+theorem fluxStep_involutive
+    (context state : Flux) :
+    fluxStep context (fluxStep context state) = state := by
+  cases context <;> cases state <;> rfl
+
+
+/--
+Every fixed-context Flux transition is injective.
+
+No two distinct prior states collapse into the same
+successor state.
+-/
+theorem fluxStep_injective
+    (context : Flux) :
+    Function.Injective (fluxStep context) := by
+  intro a b hab
+  have h :=
+    congrArg (fluxStep context) hab
+  simpa [fluxStep_involutive] using h
+
+
+/--
+Every Flux state has a predecessor under a fixed-context
+transition.
+-/
+theorem fluxStep_surjective
+    (context : Flux) :
+    Function.Surjective (fluxStep context) := by
+  intro target
+  exact ⟨fluxStep context target,
+    fluxStep_involutive context target⟩
+
+
+/--
+Every fixed-context Flux transition is both injective
+and surjective.
+-/
+theorem fluxStep_bijective
+    (context : Flux) :
+    Function.Injective (fluxStep context) ∧
+    Function.Surjective (fluxStep context) := by
+  exact ⟨fluxStep_injective context,
+    fluxStep_surjective context⟩
+
+
+/--
+Successive entries of a Flux history are produced by
+the fixed-context transition.
+-/
+@[simp]
+theorem fluxHistory_succ
+    (context initial : Flux)
+    (n : Nat) :
+    fluxHistory context initial (Nat.succ n) =
+      fluxStep context (fluxHistory context initial n) := by
+  rfl
+
+
+/--
+The preceding state can be recovered from the following
+state by applying the same fixed-context transition.
+
+This is the first concrete formal instance of memory
+escrow in KTLean.
+-/
+theorem fluxHistory_recovers_previous
+    (context initial : Flux)
+    (n : Nat) :
+    fluxStep context
+      (fluxHistory context initial (Nat.succ n)) =
+        fluxHistory context initial n := by
+  rw [fluxHistory_succ]
+  exact fluxStep_involutive
+    context
+    (fluxHistory context initial n)
+
+
+#check fluxStep_involutive
+#check fluxStep_injective
+#check fluxStep_surjective
+#check fluxStep_bijective
+#check fluxHistory_succ
+#check fluxHistory_recovers_previous
