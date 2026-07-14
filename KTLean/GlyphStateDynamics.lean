@@ -611,7 +611,12 @@ theorem state_transformations_commute
 
       cases direction <;>
         cases phase <;>
-        rfl
+        simp [
+          reverseStateTemporal,
+          exchangeStatePhase,
+          reverseTemporal,
+          exchangePhase
+        ]
 
 
 /-
