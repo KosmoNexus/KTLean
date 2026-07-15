@@ -16,6 +16,7 @@ structure LocalView (Complete : Type u) (Visible : Type v) where
 namespace LocalView
 
 variable {Complete : Type u}
+
 variable {Visible : Type v}
 
 variable {V : LocalView Complete Visible}
@@ -54,17 +55,18 @@ theorem observationallyEquivalent_trans
 Observational equivalence defines an equivalence relation on complete
 states.
 -/
-instance observationalSetoid :
+def observationalSetoid :
     Setoid Complete where
   r := V.ObservationallyEquivalent
   iseqv := by
-    constructor
+    refine ⟨?_, ?_, ?_⟩
     · intro x
-      exact V.observationallyEquivalent_refl x
+      rfl
     · intro x y hxy
-      exact V.observationallyEquivalent_symm hxy
+      exact hxy.symm
     · intro x y z hxy hyz
-      exact V.observationallyEquivalent_trans hxy hyz
+      exact hxy.trans hyz
+
 
 
 /--
@@ -123,7 +125,11 @@ theorem classOf_eq_iff
     {x y : Complete} :
     V.classOf x = V.classOf y ↔
       V.ObservationallyEquivalent x y := by
-  exact Quotient.eq
+  constructor
+  · intro h
+    exact Quotient.exact h
+  · intro h
+    exact Quotient.sound h
 
 end LocalView
 
