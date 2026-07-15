@@ -422,8 +422,6 @@ theorem card_monad_factorization :
 
   rw [card_monad]
 
-  decide
-
 
 /--
 The prime structural factorization of the monad count is
