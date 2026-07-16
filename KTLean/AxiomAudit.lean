@@ -2,6 +2,12 @@ import KTLean.MonadProjection
 import KTLean.HurwitzBoundary
 import KTLean.CayleyDicksonQuaternion
 import KTLean.RoutedResidueSensitive
+import KTLean.FanoRecovery
+import KTLean.OperationNormalForm
+import KTLean.PrimitiveRecurrence
+import KTLean.SpinorIrreducibility
+import KTLean.MemoryEscrow
+import KTLean.RoutedTokenization
 
 /-!
 # KTLean Axiom Audit
@@ -73,3 +79,87 @@ They do not constitute the full Hurwitz classification theorem.
 #print axioms KTLean.MonadProjection.ScalarProjection.onOrbitSpace_classOf
 #print axioms KTLean.MonadProjection.ScalarProjection.eq_of_same_orbit_class
 #print axioms KTLean.MonadProjection.ScalarProjection.inCoordinates_transport
+
+/-!
+## Fano recovery and routing residue
+
+These theorems distinguish exact recovery of Fano
+incidence from the residual routing information that
+recovery does not determine.
+-/
+
+#print axioms FanoRecovery.recoveredLines_eq_fanoLines
+#print axioms FanoRecovery.braid_paths_recover_same_exteriorBlock
+#print axioms FanoRecovery.structured_route_residue_exists
+#print axioms FanoRecovery.recovery_ignores_route_residue
+
+
+/-!
+## Lawful operation normal form
+
+These theorems audit the semantic classification of
+lawful framed operations by the 42 coordinate triples.
+
+The classification remains relative to the explicit
+framed Fano law.
+-/
+
+#print axioms OperationNormalForm.unique_normal_form
+#print axioms OperationNormalForm.lawful_operation_card
+#print axioms OperationNormalForm.lawful_operation_card_prime_structure
+
+
+/-!
+## Primitive recurrence boundary
+
+These theorems distinguish primitive recurrence from
+arithmetic primality and record the double-cover
+factorization boundary.
+-/
+
+#print axioms PrimitiveRecurrence.double_cover_arithmetic_dichotomy
+#print axioms PrimitiveRecurrence.primitive_recurrence_not_sufficient_for_primality
+#print axioms PrimitiveRecurrence.recurrence_boundary
+
+
+/-!
+## Spinor irreducibility
+
+These theorems audit the additional indecomposability
+hypothesis required to pass from primitive recurrence
+to primality.
+-/
+
+#print axioms SpinorIrreducibility.prime_of_primitive_indecomposable
+#print axioms SpinorIrreducibility.PrimeMode.period_prime
+#print axioms SpinorIrreducibility.PrimeMode.no_proper_nontrivial_divisor
+#print axioms SpinorIrreducibility.spinor_prime_boundary
+
+
+/-!
+## Memory escrow
+
+These theorems audit exact recovery of complete states
+from retained transition history.
+-/
+
+#print axioms ReversibleStep.history_recovers_initial
+#print axioms ReversibleStep.recoverN_stepN
+#print axioms ReversibleStep.stepN_recoverN
+#print axioms ReversibleStep.history_eq_stepN
+
+
+/-!
+## Routed tokenization
+
+These theorems audit the reversible encoding between
+complete routed states and dimensional token states,
+including recovery through token history.
+-/
+
+#print axioms RoutedTokenization.encode_bijective
+#print axioms RoutedTokenization.completeStep_conjugate
+#print axioms RoutedTokenization.tokenStep_bijective
+#print axioms RoutedTokenization.token_recovery
+#print axioms RoutedTokenization.tokenHistory_recovers_initial
+#print axioms RoutedTokenization.complete_eq_of_token_eq
