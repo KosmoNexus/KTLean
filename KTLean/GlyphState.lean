@@ -88,7 +88,7 @@ theorem temporalDirection_card :
 
     Fintype.card TemporalDirection = 2 := by
 
-  native_decide
+  decide
 
 
 /-
@@ -141,7 +141,7 @@ theorem informationPhase_card :
 
     Fintype.card InformationPhase = 2 := by
 
-  native_decide
+  decide
 
 
 /-
