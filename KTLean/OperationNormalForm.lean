@@ -155,7 +155,7 @@ theorem successor_ne_completion :
       successorPoint address ≠
         completionPoint address := by
 
-  native_decide
+  decide
 
 
 /-

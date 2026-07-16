@@ -77,7 +77,7 @@ theorem triadicRole_card :
 
     Fintype.card TriadicRole = 3 := by
 
-  native_decide
+  decide
 
 
 /-
@@ -112,7 +112,7 @@ theorem orientation_card :
 
     Fintype.card Orientation = 2 := by
 
-  native_decide
+  decide
 
 
 /-
@@ -603,7 +603,7 @@ theorem fanoPoint_card :
 
     Fintype.card Fano.Point = 7 := by
 
-  native_decide
+  decide
 
 
 /--
@@ -614,7 +614,7 @@ theorem operation_card :
 
     Fintype.card Operation = 42 := by
 
-  native_decide
+  decide
 
 
 /--
@@ -631,7 +631,7 @@ theorem operation_card_prime_factorization :
         *
       Fintype.card Orientation := by
 
-  native_decide
+  decide
 
 
 /--
@@ -644,7 +644,7 @@ theorem operation_card_eq_seven_times_three_times_two :
     Fintype.card Operation =
       7 * 3 * 2 := by
 
-  native_decide
+  decide
 
 
 /--

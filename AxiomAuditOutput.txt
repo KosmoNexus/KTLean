@@ -1,23 +1,7 @@
-'KTGlyph.card_glyph' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- AdmissibleOperation.operation_card._native.native_decide.ax_1_1,
- OperationNormalForm.successor_ne_completion._native.native_decide.ax_1_1]
-'KTMonad.card_monad' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- AdmissibleOperation.operation_card._native.native_decide.ax_1_1,
- OperationNormalForm.successor_ne_completion._native.native_decide.ax_1_1]
-'KTMonad.card_monad_eq_glyph_times_four' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- AdmissibleOperation.operation_card._native.native_decide.ax_1_1,
- OperationNormalForm.successor_ne_completion._native.native_decide.ax_1_1]
-'KTMonad.card_monad_prime_structure' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- AdmissibleOperation.operation_card._native.native_decide.ax_1_1,
- OperationNormalForm.successor_ne_completion._native.native_decide.ax_1_1]
+'KTGlyph.card_glyph' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad_eq_glyph_times_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad_prime_structure' depends on axioms: [propext, Classical.choice, Quot.sound]
 'QuaternionWitness.composition_leftMul_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
 'QuaternionWitness.composition_existsUnique_left_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
 'CayleyDicksonQuaternion.routedMul_eq_cdMul' depends on axioms: [propext, Quot.sound]
