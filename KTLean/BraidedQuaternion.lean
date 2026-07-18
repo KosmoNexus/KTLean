@@ -4,6 +4,17 @@ import KTLean.PascalMod3
 /-!
 # Pascal-Controlled Routed Quaternions
 
+## Formal status
+
+**Level 2 — Reconstruction.**
+
+This module proves that Pascal-modulo-three control can replace
+the explicit coefficient-sign table in the existing two-block
+Cayley–Dickson reconstruction.
+
+It does not yet force the Pascal addressing law, destination
+route, multiplication selector, or octonionic substrate.
+
 This module connects Pascal modulo three to the
 quaternion-block routing architecture.
 
@@ -27,7 +38,7 @@ The current milestone is deliberately limited:
   defined Cayley–Dickson selector;
 - the destination route remains the previously defined
   Cayley–Dickson route;
-- the orientation is now supplied by Pascal modulo three.
+- the coefficient sign is now supplied by Pascal-modulo-three control.
 
 Thus this module removes one independent table from the
 construction while making clear what remains to be derived.
@@ -375,6 +386,10 @@ theorem pascalRoutedMul_eq_routedMul
 /--
 The Pascal-controlled routed quaternion product
 reconstructs the Cayley–Dickson multiplication exactly.
+
+**Level 2 — Reconstruction.** This theorem establishes equality
+with the previously defined Cayley–Dickson product. It does not
+show that the Pascal address, route, or selector is uniquely forced.
 -/
 theorem pascalRoutedMul_eq_cdMul
     (x y :

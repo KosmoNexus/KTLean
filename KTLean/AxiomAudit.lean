@@ -1,4 +1,10 @@
 import KTLean.MonadProjection
+import KTLean.BraidedQuaternion
+import KTLean.YangBaxterRouting
+import KTLean.MemoryEscrowRouted
+import KTLean.BraidedQuaternion
+import KTLean.YangBaxterRouting
+import KTLean.MemoryEscrowRouted
 import KTLean.HurwitzBoundary
 import KTLean.CayleyDicksonQuaternion
 import KTLean.RoutedResidueSensitive
@@ -163,3 +169,14 @@ including recovery through token history.
 #print axioms RoutedTokenization.token_recovery
 #print axioms RoutedTokenization.tokenHistory_recovers_initial
 #print axioms RoutedTokenization.complete_eq_of_token_eq
+
+/-!
+## Forcing-round execution gate
+
+Terminal results required by Phase 0.2 of
+`KTLean_Forcing_Round_Work_Plan.md`.
+-/
+
+#print axioms BraidedQuaternion.pascalRoutedMul_eq_cdMul
+#print axioms YangBaxterRouting.routedExchange_satisfies_yang_baxter
+#print axioms MemoryEscrowRouted.complete_state_exactly_visible_plus_escrow

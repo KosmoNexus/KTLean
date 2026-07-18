@@ -3,12 +3,12 @@ import KTLean.GlyphSpectrum
 import Mathlib.Tactic.FinCases
 
 /-!
-# Canonical glyph basins
+# Canonical glyph families
 
 The 42 canonical glyphs occur in seven blocks of six.
 
 Each block shares one Fano line address and therefore one
-canonical spectral basin:
+canonical spectral family:
 
 0. fundamental integers
 1. transcendental generators
@@ -18,21 +18,21 @@ canonical spectral basin:
 5. special functions
 6. boundary/channel values
 
-This module attaches that basin structure to the already
+This module attaches that family structure to the already
 verified Frobenius glyph addresses.
 
 It does not yet prove that the numerical spectral value of
-each glyph is forced by its basin. It establishes the exact
+each glyph is forced by its family. It establishes the exact
 finite classification on which that later forcing theorem
 will operate.
 -/
 
-namespace GlyphBasin
+namespace GlyphFamily
 
 /--
-The seven canonical spectral basins of the 42-glyph table.
+The seven canonical spectral families of the 42-glyph table.
 -/
-inductive Basin where
+inductive Family where
   | integer
   | transcendental
   | algebraicRoot
@@ -43,9 +43,9 @@ inductive Basin where
   deriving DecidableEq, Repr
 
 /--
-The canonical basin attached to each Fano line.
+The canonical family attached to each Fano line.
 -/
-def basinOfLine : Fano.Point → Basin
+def familyOfLine : Fano.Point → Family
   | 0 => .integer
   | 1 => .transcendental
   | 2 => .algebraicRoot
@@ -55,64 +55,64 @@ def basinOfLine : Fano.Point → Basin
   | 6 => .boundary
 
 @[simp]
-theorem basin_line_zero :
-    basinOfLine 0 = .integer := by
+theorem family_line_zero :
+    familyOfLine 0 = .integer := by
   rfl
 
 @[simp]
-theorem basin_line_one :
-    basinOfLine 1 = .transcendental := by
+theorem family_line_one :
+    familyOfLine 1 = .transcendental := by
   rfl
 
 @[simp]
-theorem basin_line_two :
-    basinOfLine 2 = .algebraicRoot := by
+theorem family_line_two :
+    familyOfLine 2 = .algebraicRoot := by
   rfl
 
 @[simp]
-theorem basin_line_three :
-    basinOfLine 3 = .logarithmic := by
+theorem family_line_three :
+    familyOfLine 3 = .logarithmic := by
   rfl
 
 @[simp]
-theorem basin_line_four :
-    basinOfLine 4 = .trigonometric := by
+theorem family_line_four :
+    familyOfLine 4 = .trigonometric := by
   rfl
 
 @[simp]
-theorem basin_line_five :
-    basinOfLine 5 = .specialFunction := by
+theorem family_line_five :
+    familyOfLine 5 = .specialFunction := by
   rfl
 
 @[simp]
-theorem basin_line_six :
-    basinOfLine 6 = .boundary := by
+theorem family_line_six :
+    familyOfLine 6 = .boundary := by
   rfl
 
 /--
-The basin of a canonical Frobenius glyph address is
+The family of a canonical Frobenius glyph address is
 determined entirely by its Fano line.
 -/
-def basinOfAddress
+def familyOfAddress
     (address : GlyphAddressFrobenius.Address) :
-    Basin :=
-  basinOfLine address.line
+    Family :=
+  familyOfLine address.line
 
 /--
 Changing Frobenius step while preserving the line does
-not change the basin.
+not change the family.
 -/
-theorem basin_independent_of_step
+theorem family_independent_of_step
     (line : Fano.Point)
     (leftStep rightStep : FrobeniusOrbit.Step)
     (orientation : Orientation) :
-    basinOfAddress
+    familyOfAddress
         {
           line := line
           step := leftStep
           orientation := orientation
         } =
-      basinOfAddress
+      familyOfAddress
         {
           line := line
           step := rightStep
@@ -122,19 +122,19 @@ theorem basin_independent_of_step
 
 /--
 Changing orientation while preserving the line does not
-change the basin.
+change the family.
 -/
-theorem basin_independent_of_orientation
+theorem family_independent_of_orientation
     (line : Fano.Point)
     (step : FrobeniusOrbit.Step)
     (leftOrientation rightOrientation : Orientation) :
-    basinOfAddress
+    familyOfAddress
         {
           line := line
           step := step
           orientation := leftOrientation
         } =
-      basinOfAddress
+      familyOfAddress
         {
           line := line
           step := step
@@ -143,67 +143,67 @@ theorem basin_independent_of_orientation
   rfl
 
 /--
-Each canonical basin contains exactly six glyph addresses:
+Each canonical family contains exactly six glyph addresses:
 three Frobenius steps and two orientations on one Fano line.
 -/
-def addressesInBasin
-    (basin : Basin) :
+def addressesInFamily
+    (family : Family) :
     List GlyphAddressFrobenius.Address :=
   GlyphTable.coordinates
     |>.map GlyphAddressFrobenius.ofCoordinates
     |>.filter fun address =>
-        basinOfAddress address = basin
+        familyOfAddress address = family
 
-theorem integer_basin_size :
-    (addressesInBasin .integer).length = 6 := by
+theorem integer_family_size :
+    (addressesInFamily .integer).length = 6 := by
   native_decide
 
-theorem transcendental_basin_size :
-    (addressesInBasin .transcendental).length = 6 := by
+theorem transcendental_family_size :
+    (addressesInFamily .transcendental).length = 6 := by
   native_decide
 
-theorem algebraicRoot_basin_size :
-    (addressesInBasin .algebraicRoot).length = 6 := by
+theorem algebraicRoot_family_size :
+    (addressesInFamily .algebraicRoot).length = 6 := by
   native_decide
 
-theorem logarithmic_basin_size :
-    (addressesInBasin .logarithmic).length = 6 := by
+theorem logarithmic_family_size :
+    (addressesInFamily .logarithmic).length = 6 := by
   native_decide
 
-theorem trigonometric_basin_size :
-    (addressesInBasin .trigonometric).length = 6 := by
+theorem trigonometric_family_size :
+    (addressesInFamily .trigonometric).length = 6 := by
   native_decide
 
-theorem specialFunction_basin_size :
-    (addressesInBasin .specialFunction).length = 6 := by
+theorem specialFunction_family_size :
+    (addressesInFamily .specialFunction).length = 6 := by
   native_decide
 
-theorem boundary_basin_size :
-    (addressesInBasin .boundary).length = 6 := by
+theorem boundary_family_size :
+    (addressesInFamily .boundary).length = 6 := by
   native_decide
 
 /--
 Every canonical Frobenius glyph address belongs to exactly
-one basin.
+one family.
 -/
-theorem address_has_unique_basin
+theorem address_has_unique_family
     (address : GlyphAddressFrobenius.Address) :
-    ∃! basin : Basin,
-      basinOfAddress address = basin := by
-  refine ⟨basinOfAddress address, rfl, ?_⟩
+    ∃! family : Family,
+      familyOfAddress address = family := by
+  refine ⟨familyOfAddress address, rfl, ?_⟩
   intro other h
   exact h.symm
 
 /--
 A readable row combining glyph number, Frobenius address,
-basin, and symbolic spectral value.
+family, and symbolic spectral value.
 -/
 structure Row where
   glyphNumber : Nat
   line : Nat
   frobeniusStep : Nat
   orientation : Orientation
-  basin : Basin
+  family : Family
   spectralValue : GlyphSpectrum.SpectralValue
   deriving Repr
 
@@ -211,7 +211,7 @@ structure Row where
 Construct one displayed row directly from the original
 bounded glyph coordinates and its registered spectrum.
 
-The Fano line remains a `Fin 7` until after the basin has
+The Fano line remains a `Fin 7` until after the family has
 been determined, so no artificial bound proof is needed.
 -/
 def rowOfIndexedPair
@@ -230,12 +230,12 @@ def rowOfIndexedPair
     line := address.line.val
     frobeniusStep := address.step.value.val
     orientation := address.orientation
-    basin := basinOfLine address.line
+    family := familyOfLine address.line
     spectralValue := spectralValue
   }
 
 /--
-The complete canonical table with structural basin and
+The complete canonical table with structural family and
 registered symbolic spectrum shown together.
 -/
 def table : List Row :=
@@ -262,19 +262,19 @@ def glyph42 : Row :=
     ⟨41, by native_decide⟩
 
 /--
-Glyph 12 lies in the transcendental basin.
+Glyph 12 lies in the transcendental family.
 -/
-theorem glyph12_basin :
-    glyph12.basin =
-      Basin.transcendental := by
+theorem glyph12_family :
+    glyph12.family =
+      Family.transcendental := by
   native_decide
 
 /--
-Glyph 42 lies in the boundary basin.
+Glyph 42 lies in the boundary family.
 -/
-theorem glyph42_basin :
-    glyph42.basin =
-      Basin.boundary := by
+theorem glyph42_family :
+    glyph42.family =
+      Family.boundary := by
   native_decide
 
 /--
@@ -297,4 +297,4 @@ theorem glyph42_value :
 #eval glyph12
 #eval glyph42
 
-end GlyphBasin
+end GlyphFamily

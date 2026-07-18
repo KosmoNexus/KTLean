@@ -1,0 +1,53 @@
+'KTGlyph.card_glyph' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad_eq_glyph_times_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTMonad.card_monad_prime_structure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QuaternionWitness.composition_leftMul_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QuaternionWitness.composition_existsUnique_left_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CayleyDicksonQuaternion.routedMul_eq_cdMul' depends on axioms: [propext, Quot.sound]
+'HurwitzBoundary.quaternion_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HurwitzBoundary.carrier_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HurwitzBoundary.carrier_reaches_maximal_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HurwitzBoundary.carrier_is_quaternion_doubling' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KTLean.RoutedResidueSensitive.witness_states_ne' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.witness_residues_ne' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.witness_next_observations_ne' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.dynamics_noninjectiveView' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.dynamics_residueSensitive' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.dynamics_quasiStochastic' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.dynamics_not_visiblyClosed' depends on axioms: [propext]
+'KTLean.RoutedResidueSensitive.no_complete_visibleStep' depends on axioms: [propext]
+'KTLean.MonadOrbit.physicallyAdmissible_factors_through_orbit' depends on axioms: [propext]
+'KTLean.MonadProjection.ScalarProjection.constant_on_orbit' does not depend on any axioms
+'KTLean.MonadProjection.ScalarProjection.onOrbitSpace_classOf' depends on axioms: [propext]
+'KTLean.MonadProjection.ScalarProjection.eq_of_same_orbit_class' depends on axioms: [propext]
+'KTLean.MonadProjection.ScalarProjection.inCoordinates_transport' depends on axioms: [propext]
+'FanoRecovery.recoveredLines_eq_fanoLines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FanoRecovery.braid_paths_recover_same_exteriorBlock' depends on axioms: [propext, Quot.sound]
+'FanoRecovery.structured_route_residue_exists' depends on axioms: [propext]
+'FanoRecovery.recovery_ignores_route_residue' depends on axioms: [propext, Quot.sound]
+'OperationNormalForm.unique_normal_form' depends on axioms: [propext, Quot.sound]
+'OperationNormalForm.lawful_operation_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OperationNormalForm.lawful_operation_card_prime_structure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PrimitiveRecurrence.double_cover_arithmetic_dichotomy' depends on axioms: [propext, Quot.sound]
+'PrimitiveRecurrence.primitive_recurrence_not_sufficient_for_primality' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'PrimitiveRecurrence.recurrence_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinorIrreducibility.prime_of_primitive_indecomposable' depends on axioms: [propext, Quot.sound]
+'SpinorIrreducibility.PrimeMode.period_prime' depends on axioms: [propext, Quot.sound]
+'SpinorIrreducibility.PrimeMode.no_proper_nontrivial_divisor' depends on axioms: [propext, Quot.sound]
+'SpinorIrreducibility.spinor_prime_boundary' depends on axioms: [propext, Quot.sound]
+'ReversibleStep.history_recovers_initial' does not depend on any axioms
+'ReversibleStep.recoverN_stepN' does not depend on any axioms
+'ReversibleStep.stepN_recoverN' does not depend on any axioms
+'ReversibleStep.history_eq_stepN' does not depend on any axioms
+'RoutedTokenization.encode_bijective' does not depend on any axioms
+'RoutedTokenization.completeStep_conjugate' depends on axioms: [Quot.sound]
+'RoutedTokenization.tokenStep_bijective' does not depend on any axioms
+'RoutedTokenization.token_recovery' does not depend on any axioms
+'RoutedTokenization.tokenHistory_recovers_initial' does not depend on any axioms
+'RoutedTokenization.complete_eq_of_token_eq' does not depend on any axioms
+'BraidedQuaternion.pascalRoutedMul_eq_cdMul' depends on axioms: [propext, Quot.sound]
+'YangBaxterRouting.routedExchange_satisfies_yang_baxter' does not depend on any axioms
+'MemoryEscrowRouted.complete_state_exactly_visible_plus_escrow' does not depend on any axioms

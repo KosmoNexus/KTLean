@@ -3,6 +3,17 @@ import KTLean.QuaternionComposition
 /-!
 # Cayley–Dickson Reconstruction from Quaternion Blocks
 
+## Formal status
+
+**Level 2 — Reconstruction.**
+
+This module proves that an explicit selector-route-orientation
+presentation is equivalent to the standard two-block
+Cayley–Dickson multiplication.
+
+The routing, selector, and orientation tables remain explicit
+witness data here; their uniqueness is not established.
+
 This module begins the reconstruction of the octonionic
 Cayley–Dickson product from two quaternionic compartments.
 
@@ -650,6 +661,9 @@ theorem routedMul_apply
 /--
 The selector, route, and orientation tables reconstruct
 the target Cayley–Dickson multiplication exactly.
+
+**Level 2 — Reconstruction.** Equality with the target product is
+proved, but the three tables are not claimed to be uniquely forced.
 -/
 theorem routedMul_eq_cdMul
     (x y : Carrier (R := R)) :
