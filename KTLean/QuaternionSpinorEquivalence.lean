@@ -271,3 +271,63 @@ end QuaternionSpinorEquivalence
 
 #check QuaternionSpinorEquivalence.doubleQuaternionEquiv_map_star
 #check QuaternionSpinorEquivalence.doubleQuaternionEquiv_map_mul
+
+namespace QuaternionSpinorEquivalence
+
+/--
+Quaternion norm-square agrees with the sum of the two complex
+norm-squares under the frozen identification
+
+    q = z + w*j.
+-/
+theorem doubleQuaternionEquiv_normSq
+    (x : ComplexDouble) :
+    Quaternion.normSq
+        (doubleQuaternionEquiv x)
+      =
+    Complex.normSq x.fst +
+      Complex.normSq x.snd := by
+
+  rw [Quaternion.normSq_def]
+
+  simp [
+    doubleQuaternionEquiv,
+    Quaternion.re_mul,
+    Quaternion.re_star,
+    Quaternion.imI_star,
+    Quaternion.imJ_star,
+    Quaternion.imK_star,
+    Complex.normSq_apply
+  ]
+
+  ring
+
+/--
+The spinor norm-square is exactly the quaternion norm-square under the
+spinor–quaternion equivalence.
+-/
+theorem spinorQuaternionEquiv_normSq
+    (ψ : SpinorClosure.WeylSpinor) :
+    Quaternion.normSq
+        (spinorQuaternionEquiv ψ)
+      =
+    SpinorClosure.normSq ψ := by
+
+  change
+    Quaternion.normSq
+        (doubleQuaternionEquiv
+          {
+            fst := ψ.upper
+            snd := ψ.lower
+          })
+      =
+    SpinorClosure.normSq ψ
+
+  rw [doubleQuaternionEquiv_normSq]
+
+  rfl
+
+end QuaternionSpinorEquivalence
+
+#check QuaternionSpinorEquivalence.doubleQuaternionEquiv_normSq
+#check QuaternionSpinorEquivalence.spinorQuaternionEquiv_normSq
