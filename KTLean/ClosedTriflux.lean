@@ -1,10 +1,9 @@
-import Mathlib.Data.Fintype.Basic
-import Mathlib.Data.Quot
-import Mathlib.Data.Quot
 import Mathlib.Algebra.Group.End
-import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.Quot
+import Mathlib.GroupTheory.OrderOfElement
 import KTLean.Axioms
+import KTLean.Flux
 import KTLean.Reversibility
 
 /-!
@@ -614,3 +613,197 @@ end ClosedTriflux
 #check ClosedTriflux.System.state_returns_after_globalPeriod
 #check ClosedTriflux.System.exists_positive_return
 #check ClosedTriflux.System.reality_closes_after_globalPeriod
+
+namespace ClosedTriflux
+
+universe u
+
+/-!
+## CT3: One connected reality
+
+Periodic reversible dynamics may decompose into several disconnected
+orbits. Each orbit is a persistent reality in the sense defined above.
+
+This section isolates the stronger condition under which every complete
+state belongs to one common orbit. Under that condition, the reality
+quotient contains exactly one element.
+
+No path count, Fano structure, glyph count, or cosmological parameter
+is assumed.
+-/
+
+/--
+A closed-triflux system is orbit-connected when every complete state
+can be reached from every other complete state by an integer number of
+forward or recovery steps.
+
+Equivalently, the reversible state permutation consists of one orbit.
+-/
+def OrbitConnected
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    Prop :=
+
+  ∀ left right : State,
+    SameOrbit S left right
+
+/--
+Orbit connectedness is equivalent to all complete states representing
+the same persistent reality.
+-/
+theorem orbitConnected_iff_realityOf_eq
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    OrbitConnected S
+      ↔
+    ∀ left right : State,
+      realityOf S left =
+        realityOf S right := by
+
+  constructor
+
+  · intro hConnected left right
+
+    exact
+      realityOf_eq_of_sameOrbit
+        S
+        (hConnected left right)
+
+  · intro hReality left right
+
+    exact
+      (realityOf_eq_iff S).1
+        (hReality left right)
+
+/--
+If every complete state belongs to one orbit, then the reality quotient
+is a subsingleton: any two persistent realities are equal.
+-/
+theorem reality_subsingleton_of_orbitConnected
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (hConnected : OrbitConnected S) :
+    Subsingleton (Reality S) where
+
+  allEq := by
+    intro leftReality rightReality
+
+    refine
+      Quotient.inductionOn₂
+        leftReality
+        rightReality
+        ?_
+
+    intro left right
+
+    exact
+      Quotient.sound
+        (hConnected left right)
+
+/--
+Conversely, if the reality quotient is a subsingleton, then every
+complete state lies in one common orbit.
+-/
+theorem orbitConnected_of_reality_subsingleton
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (hReality :
+      Subsingleton (Reality S)) :
+    OrbitConnected S := by
+
+  intro left right
+
+  apply
+    (realityOf_eq_iff S).1
+
+  exact
+    hReality.allEq
+      (realityOf S left)
+      (realityOf S right)
+
+/--
+A closed-triflux system is orbit-connected exactly when its persistent
+reality space has at most one element.
+-/
+theorem orbitConnected_iff_reality_subsingleton
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    OrbitConnected S
+      ↔
+    Subsingleton (Reality S) := by
+
+  constructor
+
+  · exact
+      reality_subsingleton_of_orbitConnected
+        S
+
+  · exact
+      orbitConnected_of_reality_subsingleton
+        S
+
+/--
+Under orbit connectedness, all complete internal states represent one
+and the same persistent reality.
+-/
+theorem all_states_same_reality_of_orbitConnected
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (hConnected : OrbitConnected S)
+    (left right : State) :
+    realityOf S left =
+      realityOf S right := by
+
+  exact
+    (orbitConnected_iff_realityOf_eq S).1
+      hConnected
+      left
+      right
+
+/--
+An orbit-connected closed-triflux system generates exactly one
+persistent reality.
+
+Existence follows from realization of the three flux states.
+Uniqueness follows from orbit connectedness.
+-/
+theorem existsUnique_reality_of_orbitConnected
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (hConnected : OrbitConnected S) :
+    ∃! reality : Reality S,
+      True := by
+
+  rcases reality_nonempty S with
+    ⟨reality⟩
+
+  refine
+    ⟨
+      reality,
+      trivial,
+      ?_
+    ⟩
+
+  intro candidate _
+
+  exact
+    (reality_subsingleton_of_orbitConnected
+      S
+      hConnected).allEq
+        candidate
+        reality
+
+end ClosedTriflux
+
+#check ClosedTriflux.OrbitConnected
+#check ClosedTriflux.orbitConnected_iff_realityOf_eq
+#check ClosedTriflux.orbitConnected_iff_reality_subsingleton
+#check ClosedTriflux.all_states_same_reality_of_orbitConnected
+#check ClosedTriflux.existsUnique_reality_of_orbitConnected
