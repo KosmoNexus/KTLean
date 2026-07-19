@@ -149,3 +149,93 @@ end SpinorClosure
 #check SpinorClosure.UnitThreeSphere
 #check SpinorClosure.normalizedToSphere
 #check SpinorClosure.normalized_iff_on_unitThreeSphere
+
+namespace SpinorClosure
+
+/-!
+## Full normalized-spinor / unit-three-sphere equivalence
+-/
+
+/--
+Reconstruct a two-component complex spinor from four real coordinates.
+
+The coordinate convention is
+
+    (x₀,x₁,x₂,x₃)
+      ↦
+    (x₀ + x₁ i, x₂ + x₃ i).
+-/
+def RealFour.toSpinor
+    (x : RealFour) :
+    WeylSpinor where
+  upper := ⟨x.x₀, x.x₁⟩
+  lower := ⟨x.x₂, x.x₃⟩
+
+@[simp]
+theorem toRealFour_toSpinor
+    (x : RealFour) :
+    toRealFour x.toSpinor = x := by
+  cases x
+  rfl
+
+@[simp]
+theorem RealFour.toSpinor_toRealFour
+    (ψ : WeylSpinor) :
+    (toRealFour ψ).toSpinor = ψ := by
+  cases ψ with
+  | mk upper lower =>
+      cases upper
+      cases lower
+      rfl
+
+/--
+Every point of the unit three-sphere reconstructs a normalized spinor.
+-/
+def sphereToNormalized
+    (x : UnitThreeSphere) :
+    NormalizedSpinor :=
+  ⟨
+    x.1.toSpinor,
+    by
+      rw [← radiusSq_toRealFour]
+      rw [toRealFour_toSpinor]
+      exact x.2
+  ⟩
+
+@[simp]
+theorem sphereToNormalized_value
+    (x : UnitThreeSphere) :
+    (sphereToNormalized x).1 =
+      x.1.toSpinor := by
+  rfl
+
+@[simp]
+theorem normalizedToSphere_sphereToNormalized
+    (x : UnitThreeSphere) :
+    normalizedToSphere (sphereToNormalized x) = x := by
+  apply Subtype.ext
+  exact toRealFour_toSpinor x.1
+
+@[simp]
+theorem sphereToNormalized_normalizedToSphere
+    (ψ : NormalizedSpinor) :
+    sphereToNormalized (normalizedToSphere ψ) = ψ := by
+  apply Subtype.ext
+  exact RealFour.toSpinor_toRealFour ψ.1
+
+/--
+Normalized two-component complex spinors are exactly the unit
+three-sphere in four real coordinates.
+-/
+def normalizedSpinorEquivSphere :
+    NormalizedSpinor ≃ UnitThreeSphere where
+  toFun := normalizedToSphere
+  invFun := sphereToNormalized
+  left_inv := sphereToNormalized_normalizedToSphere
+  right_inv := normalizedToSphere_sphereToNormalized
+
+end SpinorClosure
+
+#check SpinorClosure.RealFour.toSpinor
+#check SpinorClosure.sphereToNormalized
+#check SpinorClosure.normalizedSpinorEquivSphere
