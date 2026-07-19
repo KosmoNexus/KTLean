@@ -1,5 +1,6 @@
 import Mathlib.Data.Fintype.Basic
 import Mathlib.Algebra.Group.End
+import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.Data.Fintype.Basic
 import KTLean.Axioms
 import KTLean.Reversibility
@@ -494,3 +495,120 @@ end ClosedTriflux
 #check ClosedTriflux.realityOf_step
 #check ClosedTriflux.realityOf_eq_iff
 #check ClosedTriflux.reality_nonempty
+
+namespace ClosedTriflux
+
+universe u
+
+/-!
+## CT2: Literal periodic closure
+
+Because the complete state space is finite and evolution is reversible,
+the dynamical permutation has finite positive order.
+
+Consequently every complete state returns exactly after one common
+global period.
+-/
+
+/--
+The global period of a closed-triflux system is the group-theoretic
+order of its reversible state permutation.
+-/
+noncomputable def System.globalPeriod
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    ℕ :=
+  orderOf S.stepEquiv
+
+/--
+The global period is strictly positive.
+-/
+theorem System.globalPeriod_pos
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    0 < S.globalPeriod := by
+
+  classical
+
+  unfold globalPeriod
+
+  exact orderOf_pos S.stepEquiv
+
+/--
+After one global period, the complete-state permutation is exactly the
+identity permutation.
+-/
+theorem System.stepEquiv_pow_globalPeriod
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    S.stepEquiv ^ S.globalPeriod =
+      1 := by
+
+  classical
+
+  unfold globalPeriod
+
+  exact pow_orderOf_eq_one S.stepEquiv
+
+/--
+Every complete state returns to itself after the same positive global
+period.
+
+This is the literal finite reversible-closure theorem.
+-/
+theorem System.state_returns_after_globalPeriod
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    (S.stepEquiv ^ S.globalPeriod) state =
+      state := by
+
+  rw [S.stepEquiv_pow_globalPeriod]
+
+  rfl
+
+/--
+Every complete state has some strictly positive return time.
+-/
+theorem System.exists_positive_return
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    ∃ period : ℕ,
+      0 < period ∧
+      (S.stepEquiv ^ period) state = state := by
+
+  exact
+    ⟨
+      S.globalPeriod,
+      S.globalPeriod_pos,
+      S.state_returns_after_globalPeriod state
+    ⟩
+
+/--
+The state reached after one global period represents the same reality,
+because it is in fact the identical complete state.
+-/
+theorem System.reality_closes_after_globalPeriod
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    realityOf S
+        ((S.stepEquiv ^ S.globalPeriod) state) =
+      realityOf S state := by
+
+  rw [S.state_returns_after_globalPeriod]
+
+end ClosedTriflux
+
+#check ClosedTriflux.System.globalPeriod
+#check ClosedTriflux.System.globalPeriod_pos
+#check ClosedTriflux.System.state_returns_after_globalPeriod
+#check ClosedTriflux.System.exists_positive_return
+#check ClosedTriflux.System.reality_closes_after_globalPeriod
