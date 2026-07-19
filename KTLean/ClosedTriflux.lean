@@ -1,4 +1,6 @@
 import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.Quot
+import Mathlib.Data.Quot
 import Mathlib.Algebra.Group.End
 import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.Data.Fintype.Basic
