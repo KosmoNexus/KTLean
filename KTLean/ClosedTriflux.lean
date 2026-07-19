@@ -1,4 +1,5 @@
 import Mathlib.Data.Fintype.Basic
+import Mathlib.Algebra.Group.End
 import Mathlib.Data.Fintype.Basic
 import KTLean.Axioms
 import KTLean.Reversibility
@@ -225,3 +226,271 @@ end ClosedTriflux
 #check ClosedTriflux.System.state_nonempty
 #check ClosedTriflux.System.local_triadicClosure
 #check ClosedTriflux.System.step_bijective
+
+namespace ClosedTriflux
+
+universe u
+
+/-!
+## CT1: Dynamical orbit identity
+
+A complete state may change under reversible evolution while remaining
+part of the same closed dynamical identity.
+
+Integer powers are used so that both forward and recovered motion are
+included in one orbit relation.
+-/
+
+/--
+Two complete states belong to the same dynamical orbit when one is
+obtained from the other by an integer number of reversible steps.
+
+Positive powers represent forward evolution.
+Negative powers represent recovery.
+Zero represents the unchanged state.
+-/
+def SameOrbit
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (left right : State) :
+    Prop :=
+
+  ∃ exponent : ℤ,
+    (S.stepEquiv ^ exponent) left = right
+
+/--
+Every complete state belongs to its own orbit.
+-/
+theorem sameOrbit_refl
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    SameOrbit S state state := by
+
+  refine ⟨0, ?_⟩
+  simp
+
+/--
+Dynamical orbit membership is symmetric because every forward motion
+has a recovery motion.
+-/
+theorem sameOrbit_symm
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    {left right : State}
+    (h : SameOrbit S left right) :
+    SameOrbit S right left := by
+
+  rcases h with ⟨exponent, hexponent⟩
+  subst right
+
+  refine ⟨-exponent, ?_⟩
+
+  rw [zpow_neg]
+
+  exact
+    (S.stepEquiv ^ exponent).symm_apply_apply left
+
+/--
+Dynamical orbit membership is transitive: successive pieces of motion
+compose into one integer power of the reversible evolution.
+-/
+theorem sameOrbit_trans
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    {first second third : State}
+    (hfirst :
+      SameOrbit S first second)
+    (hsecond :
+      SameOrbit S second third) :
+    SameOrbit S first third := by
+
+  rcases hfirst with
+    ⟨firstExponent, hfirstExponent⟩
+
+  rcases hsecond with
+    ⟨secondExponent, hsecondExponent⟩
+
+  refine
+    ⟨secondExponent + firstExponent, ?_⟩
+
+  rw [zpow_add]
+
+  change
+    (S.stepEquiv ^ secondExponent)
+        ((S.stepEquiv ^ firstExponent) first) =
+      third
+
+  rw [
+    hfirstExponent,
+    hsecondExponent
+  ]
+
+/--
+The reversible dynamical-orbit relation is an equivalence relation.
+-/
+theorem sameOrbit_equivalence
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    Equivalence (SameOrbit S) :=
+
+  ⟨
+    sameOrbit_refl S,
+    by
+      intro left right h
+      exact sameOrbit_symm S h,
+    by
+      intro first second third hfirst hsecond
+      exact
+        sameOrbit_trans
+          S
+          hfirst
+          hsecond
+  ⟩
+
+/--
+The setoid of complete states identified by reversible dynamical
+motion.
+-/
+def orbitSetoid
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    Setoid State where
+
+  r :=
+    SameOrbit S
+
+  iseqv :=
+    sameOrbit_equivalence S
+
+/--
+A dynamically persistent reality is an orbit class of complete states.
+
+The internal complete state may change, but all states connected by
+reversible evolution represent the same dynamical identity.
+-/
+abbrev Reality
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :=
+  Quotient (orbitSetoid S)
+
+/--
+The persistent reality represented by one complete internal state.
+-/
+def realityOf
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    Reality S :=
+
+  Quotient.mk
+    (orbitSetoid S)
+    state
+
+/--
+A single forward step remains within the same dynamical orbit.
+-/
+theorem sameOrbit_step
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    SameOrbit
+      S
+      state
+      (S.dynamics.step state) := by
+
+  refine ⟨1, ?_⟩
+
+  change
+    S.stepEquiv state =
+      S.dynamics.step state
+
+  exact S.stepEquiv_apply state
+/--
+Motion changes the complete internal state but preserves its persistent
+reality class.
+
+This is the first formal closed-triflux persistence theorem.
+-/
+theorem realityOf_step
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    (state : State) :
+    realityOf S (S.dynamics.step state) =
+      realityOf S state := by
+
+  apply Quotient.sound
+
+  exact
+    sameOrbit_symm
+      S
+      (sameOrbit_step S state)
+
+/--
+Orbit-equivalent complete states determine the same persistent reality.
+-/
+theorem realityOf_eq_of_sameOrbit
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    {left right : State}
+    (h : SameOrbit S left right) :
+    realityOf S left =
+      realityOf S right := by
+
+  exact Quotient.sound h
+
+/--
+Two complete states represent the same persistent reality exactly when
+they belong to the same reversible dynamical orbit.
+-/
+theorem realityOf_eq_iff
+    {State : Type u}
+    [Fintype State]
+    (S : System State)
+    {left right : State} :
+    realityOf S left =
+        realityOf S right
+      ↔
+    SameOrbit S left right := by
+
+  constructor
+
+  · intro h
+    exact Quotient.exact h
+
+  · intro h
+    exact realityOf_eq_of_sameOrbit S h
+
+/--
+Every closed-triflux system generates at least one persistent reality.
+-/
+theorem reality_nonempty
+    {State : Type u}
+    [Fintype State]
+    (S : System State) :
+    Nonempty (Reality S) := by
+
+  rcases S.state_nonempty with
+    ⟨state⟩
+
+  exact
+    ⟨realityOf S state⟩
+
+end ClosedTriflux
+
+#check ClosedTriflux.SameOrbit
+#check ClosedTriflux.Reality
+#check ClosedTriflux.realityOf_step
+#check ClosedTriflux.realityOf_eq_iff
+#check ClosedTriflux.reality_nonempty
