@@ -171,6 +171,10 @@ theorem orbitOf_partner
     orbitOf S x (partner S x y) =
       orbitOf S x y := by
 
+  change
+    Quotient.mk (orbitSetoid S x) (partner S x y) =
+      Quotient.mk (orbitSetoid S x) y
+
   apply Quotient.sound
 
   exact
@@ -195,7 +199,13 @@ theorem orbitOf_eq_iff
       ↔
     OrbitRel S x y z
 
-  exact Quotient.eq
+  constructor
+
+  · intro h
+    exact Quotient.exact h
+
+  · intro h
+    exact Quotient.sound h
 
 end SevenForcingOrbit
 
