@@ -111,7 +111,7 @@ theorem usableProjectionChannels_eq_oneThirtySeven :
     usableProjectionChannels =
       137 := by
 
-  native_decide
+  decide
 
 /--
 The channel formula in its compact combinatorial form.
@@ -123,7 +123,7 @@ theorem alphaBoundary_formula :
         3 =
       137 := by
 
-  native_decide
+  decide
 
 /--
 The three removed channels are exactly one closure triad.
@@ -133,7 +133,7 @@ theorem removed_capacity_is_primordial_triad :
       usableProjectionChannels +
         triadicClosureOverhead := by
 
-  native_decide
+  decide
 
 /--
 The final canonical glyph carries the symbolic boundary value 137.

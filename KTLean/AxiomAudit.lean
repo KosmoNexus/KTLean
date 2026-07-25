@@ -14,6 +14,7 @@ import KTLean.PrimitiveRecurrence
 import KTLean.SpinorIrreducibility
 import KTLean.MemoryEscrow
 import KTLean.RoutedTokenization
+import KTLean.MainTheoremChain
 
 /-!
 # KTLean Axiom Audit
@@ -180,3 +181,39 @@ Terminal results required by Phase 0.2 of
 #print axioms BraidedQuaternion.pascalRoutedMul_eq_cdMul
 #print axioms YangBaxterRouting.routedExchange_satisfies_yang_baxter
 #print axioms MemoryEscrowRouted.complete_state_exactly_visible_plus_escrow
+
+/-!
+## Finalization physical spine and omnibus chain
+
+These audits cover the Phase I finalization modules and the
+main theorem chain added in July 2026.
+-/
+
+#print axioms completion_satisfies_axiom6
+
+#print axioms
+  GlyphSpectralCompleteEmergence.complete_canonical_glyph_spectrum_emerges
+
+#print axioms
+  OMBTLocalityGeneration.locality_is_projection_not_information_loss
+
+#print axioms
+  OMBTMonadEmergence.ombt_monads_emerge
+
+#print axioms
+  PhysicalAlphaInvariant.alphaInverseMagnitude_eq_oneThirtySeven
+
+#print axioms
+  PhysicalPlanckScale.physical_planck_scale_emerges
+
+#print axioms
+  PhysicalProjectionState.physical_projection_state_grammar_emerges
+
+#print axioms
+  PhysicalCanonicalStateCount.canonical_state_count_follows_from_certification
+
+#print axioms
+  PhysicalAlphaCertifiedValue.certified_projected_alpha
+
+#print axioms
+  MainTheoremChain.ktlean_structural_spine
