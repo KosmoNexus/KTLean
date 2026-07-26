@@ -175,3 +175,8 @@ The aim of KTLean is not to insulate Kosmoplex Theory from criticism. It is to m
 ## Repository
 
 **https://github.com/KosmoNexus/KTLean**
+
+
+## License
+
+KTLean is released under the MIT License. See [LICENSE](LICENSE).
