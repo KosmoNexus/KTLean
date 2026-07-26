@@ -179,3 +179,11 @@ The aim of KTLean is not to insulate Kosmoplex Theory from criticism. It is to m
 ## License
 
 KTLean is released under the [MIT License](LICENSE).
+
+## Citation and archived release
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21610428.svg)](https://doi.org/10.5281/zenodo.21610428)
+
+KTLean Draft 1 — Formal Spine is permanently archived at Zenodo:
+
+https://doi.org/10.5281/zenodo.21610428
